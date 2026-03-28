@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake News Prediction</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #211c1b;
+        color: #e0e0e0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      header,
+      footer {
+        background-color: #2e2827;
+        text-align: center;
+        padding: 15px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        color: #f4a261;
+      }
+      header h1,
+      footer p {
+        margin: 0;
+      }
+      main {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+      form {
+        width: 100%;
+        max-width: 600px;
+        text-align: left;
+        margin-bottom: 30px;
+      }
+      form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+      }
+      select,
+      textarea,
+      button {
+        width: 100%;
+        margin: 10px 0;
+        padding: 16px;
+        border: 2px solid #4a4847;
+        border-radius: 5px;
+        background-color: #1d1a19;
+        color: #fefefe;
+        font-size: 16px;
+      }
+      textarea {
+        max-width: 94%;
+        height: 120px;
+      }
+      button {
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      button:hover {
+        background-color: #f4a261;
+        color: #211c1b;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      }
+      #loading {
+        display: none;
+        margin-top: 20px;
+        color: #f4a261;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      }
+      .true-news {
+        color: #4caf50;
+      }
+      .fake-news {
+        color: #f44336;
+      }
+      .unknown-news {
+        color: #ffa500;
+      }
+      .model-accuracy {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 20px 0;
+      }
+      .model-card {
+        background-color: #2e2827;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 150px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+      }
+      .model-card:hover {
+        transform: scale(1.05);
+      }
+      .model-card h3 {
+        margin: 0 0 10px 0;
+        font-size: 18px;
+        color: #f4a261;
+      }
+      .model-card p {
+        margin: 0;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .about {
+        margin-top: 40px;
+        padding: 20px;
+        background-color: #2e2827;
+        border-radius: 10px;
+        color: #e0e0e0;
+        text-align: justify;
+        max-width: 800px;
+      }
+      .about h2 {
+        color: #f4a261;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Fake News Prediction</h1>
+    </header>
+    <main>
+      <form id="predict-form">
+        <label for="model">Select a Model:</label>
+        <select name="model" id="model" required>
+          <option value="" disabled selected>Select a Model</option>
+          <option value="NB">Naive Bayes</option>
+          <option value="CNN">Convolutional Neural Network</option>
+          <option value="RNN">Recurrent Neural Network</option>
+        </select>
+
+        <label for="embedding">Select an Embedding Tool:</label>
+        <select name="embedding" id="embedding" required>
+          <option value="" disabled selected>Select an Embedding Tool</option>
+          <option value="Word2Vec">Word2Vec</option>
+          <option value="BERT">BERT</option>
+        </select>
+
+        <label for="input_text">Enter the Text:</label>
+        <textarea
+          name="input_text"
+          id="input_text"
+          placeholder="Enter the text to predict..."
+          required
+        ></textarea>
+
+        <button type="button" onclick="makePrediction()">Analyze</button>
+      </form>
+
+      <div id="loading">Analyzing...</div>
+      <div id="result"></div>
+
+      <div class="model-accuracy">
+        <div class="model-card">
+          <h3>Word2Vec-NB</h3>
+          <p>86%</p>
+        </div>
+        <div class="model-card">
+          <h3>Word2Vec-CNN</h3>
+          <p>99%</p>
+        </div>
+        <div class="model-card">
+          <h3>BERT-NB</h3>
+          <p>90%</p>
+        </div>
+        <div class="model-card">
+          <h3>BERT-CNN</h3>
+          <p>97%</p>
+        </div>
+      </div>
+
+      <div class="about">
+        <h2>About This Tool</h2>
+        <p>
+          This tool is designed to predict the authenticity of news articles
+          using advanced machine learning and deep learning models. It provides
+          insights into the probability of news being true or fake based on the
+          chosen model and embedding tool.
+        </p>
+        <ul>
+          <li>
+            <b>Naive Bayes:</b> A statistical method for simple and effective
+            classification.
+          </li>
+          <li>
+            <b>CNN:</b> A powerful neural network model to detect patterns in
+            text.
+          </li>
+          <li>
+            <b>Word2Vec:</b> Converts words into meaningful numerical vectors.
+          </li>
+          <li>
+            <b>BERT:</b> State-of-the-art contextual word embedding model.
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer>
+      <p>© 2024 Fake News Prediction Tool | Crafted with care and precision</p>
+    </footer>
+
+    <script>
+      function makePrediction() {
+        const form = document.getElementById("predict-form");
+        const formData = new FormData(form);
+        const loadingDiv = document.getElementById("loading");
+        const resultDiv = document.getElementById("result");
+
+        loadingDiv.style.display = "block";
+        resultDiv.textContent = "";
+
+        fetch("/predict", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            loadingDiv.style.display = "none";
+            if (data.error) {
+              resultDiv.textContent = data.error;
+              resultDiv.className = "unknown-news";
+            } else if (data.prediction === "True news") {
+              resultDiv.textContent = "Prediction: True news";
+              resultDiv.className = "true-news";
+            } else if (data.prediction === "Fake news") {
+              resultDiv.textContent = "Prediction: Fake news";
+              resultDiv.className = "fake-news";
+            } else {
+              resultDiv.textContent = `Prediction: ${data.prediction}`;
+              resultDiv.className = "unknown-news";
+            }
+          })
+          .catch((error) => {
+            loadingDiv.style.display = "none";
+            console.error("Error:", error);
+            resultDiv.textContent = "An error occurred while predicting!";
+            resultDiv.className = "unknown-news";
+          });
+      }
+    </script>
+  </body>
+</html>

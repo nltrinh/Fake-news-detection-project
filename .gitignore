@@ -1,0 +1,64 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+venv/
+env/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are covered by other .gitignore patterns already,
+#  but this makes them explicit for clarity.
+*.manifest
+*.spec
+
+# Virtual environments
+venv/
+
+# IDEs
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Large model files and binaries (GitHub 100MB limit)
+*.pkl
+*.h5
+*.bin
+*.bin.*
+*.npy
+word2vec_model.*
+embeddings.pkl
+pca_model.pkl
+CNN_model_using_Word2Vec.pkl
+CNN_using_BERT.pkl
+naive_bayes_model_using_BERT.pkl
+naive_bayes_model_using_Word2Vec.pkl
+RNN_model_using_BERT.h5
+RNN_model_using_Word2Vec.h5
+
+# Keep charts and dataset
